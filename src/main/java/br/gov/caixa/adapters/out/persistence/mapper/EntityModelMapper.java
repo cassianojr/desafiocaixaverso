@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Classe responsável pelo mapeamento entre entidades de persistência e modelos de domínio
+ */
 @ApplicationScoped
 public class EntityModelMapper {
 

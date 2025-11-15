@@ -1,6 +1,6 @@
 package br.gov.caixa.domain.exception;
 
-import br.gov.caixa.adapters.inbound.rest.ErrorResponse;
+import br.gov.caixa.adapters.in.rest.ErrorResponse;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
