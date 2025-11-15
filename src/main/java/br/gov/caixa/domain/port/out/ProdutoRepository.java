@@ -10,4 +10,5 @@ public interface ProdutoRepository {
 
     List<Produto> findAll();
     Optional<Produto> findByTipo(String tipo);
+    List<Produto> findByRisco(String risco);
 }

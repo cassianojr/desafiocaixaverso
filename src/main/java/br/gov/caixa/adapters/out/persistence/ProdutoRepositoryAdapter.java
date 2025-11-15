@@ -36,4 +36,14 @@ public class ProdutoRepositoryAdapter implements ProdutoRepository {
             return Optional.of(mapper.map(result.stream().findFirst(), Produto.class));
         }
     }
+
+    @Override
+    public List<Produto> findByRisco(String risco) {
+        return entityManager.createQuery("FROM ProdutoEntity WHERE risco = :risco", ProdutoEntity.class)
+                .setParameter("risco", risco)
+                .getResultList()
+                .stream()
+                .map(entity -> mapper.map(entity, Produto.class))
+                .toList();
+    }
 }
