@@ -1,6 +1,5 @@
 package br.gov.caixa.adapters.in.rest;
 
-import br.gov.caixa.domain.port.in.ConsultarPerfilRiscoUseCase;
 import br.gov.caixa.domain.port.in.ConsultarProdutosRecomendadosUseCase;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;

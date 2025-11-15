@@ -3,10 +3,12 @@ package br.gov.caixa.application.service;
 import br.gov.caixa.domain.model.SimulacaoPorProdutoDia;
 import br.gov.caixa.domain.port.in.ConsultarSimulacoesPorProdutoDiaUseCase;
 import br.gov.caixa.domain.port.out.SimulacaoRepository;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.util.List;
 
+@ApplicationScoped
 public class ConsultarSimulacoesPorProdutoDiaService implements ConsultarSimulacoesPorProdutoDiaUseCase {
 
     @Inject

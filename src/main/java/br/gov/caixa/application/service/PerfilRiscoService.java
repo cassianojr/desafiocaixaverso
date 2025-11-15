@@ -1,7 +1,6 @@
 package br.gov.caixa.application.service;
 
 import br.gov.caixa.domain.model.Investimento;
-import br.gov.caixa.domain.model.PerfilRisco;
 import br.gov.caixa.domain.model.PerfilRiscoResultado;
 import br.gov.caixa.domain.port.in.ConsultarPerfilRiscoUseCase;
 import br.gov.caixa.domain.port.out.InvestimentoRepository;

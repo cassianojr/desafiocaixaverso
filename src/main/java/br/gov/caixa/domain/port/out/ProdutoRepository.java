@@ -1,6 +1,5 @@
 package br.gov.caixa.domain.port.out;
 
-import br.gov.caixa.adapters.out.persistence.entity.ProdutoEntity;
 import br.gov.caixa.domain.model.Produto;
 
 import java.util.List;
