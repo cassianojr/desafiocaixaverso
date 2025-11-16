@@ -7,8 +7,10 @@ import br.gov.caixa.domain.port.out.TelemetriaRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @ApplicationScoped
@@ -21,7 +23,8 @@ public class TelemetriaRepositoryAdapter implements TelemetriaRepository {
     EntityModelMapper mapper;
 
     @Override
-    public void registrarChamada(String servico, double tempoRespostaMs, LocalDate data) {
+    @Transactional
+    public void registrarChamada(String servico, double tempoRespostaMs, LocalDateTime data) {
         //verifica se já existe telemetria nesse dia para o serviço
         List<TelemetriaEntity> result = em.createQuery("""
                     FROM TelemetriaEntity

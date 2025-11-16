@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="telemetria")
@@ -18,7 +18,7 @@ public class TelemetriaEntity {
     private String servico;
     private Long quantidadeChamadas;
     private Double mediaRespostaMs;
-    private LocalDate data;
+    private LocalDateTime data;
 
     public Long getId() {
         return id;
@@ -52,11 +52,11 @@ public class TelemetriaEntity {
         this.mediaRespostaMs = mediaRespostaMs;
     }
 
-    public LocalDate getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 }

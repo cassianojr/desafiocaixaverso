@@ -2,7 +2,7 @@ package br.gov.caixa.adapters.out.persistence.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="investimento")
@@ -15,8 +15,8 @@ public class InvestimentoEntity {
     private Long clienteId;
     private String tipo;
     private Double valor;
-    private Double rentabilidae;
-    private LocalDate data;
+    private Double rentabilidade;
+    private LocalDateTime data;
 
 
     public Long getId() {
@@ -51,19 +51,19 @@ public class InvestimentoEntity {
         this.valor = valor;
     }
 
-    public Double getRentabilidae() {
-        return rentabilidae;
+    public Double getRentabilidade() {
+        return rentabilidade;
     }
 
-    public void setRentabilidae(Double rentabilidae) {
-        this.rentabilidae = rentabilidae;
+    public void setRentabilidade(Double rentabilidae) {
+        this.rentabilidade = rentabilidae;
     }
 
-    public LocalDate getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(LocalDate data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 }
