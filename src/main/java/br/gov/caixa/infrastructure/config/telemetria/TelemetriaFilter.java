@@ -9,7 +9,7 @@ import jakarta.ws.rs.container.ContainerResponseFilter;
 import jakarta.ws.rs.ext.Provider;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Provider
 public class TelemetriaFilter implements ContainerRequestFilter, ContainerResponseFilter {
@@ -34,6 +34,6 @@ public class TelemetriaFilter implements ContainerRequestFilter, ContainerRespon
         double tempoRespostaMs = System.currentTimeMillis() - inicio;
 
         String path = requestContext.getUriInfo().getPath();
-        telemetriaRepository.registrarChamada(path, tempoRespostaMs, LocalDateTime.now());
+        telemetriaRepository.registrarChamada(path, tempoRespostaMs, LocalDate.now());
     }
 }

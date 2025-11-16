@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TelemetriaRepository {
-    void registrarChamada(String servico, double tempoRespostaMs, LocalDateTime data);
+    void registrarChamada(String servico, double tempoRespostaMs, LocalDate data);
     List<Telemetria> listarPorPeriodo(LocalDate dataInicio, LocalDate dataFim);
 }

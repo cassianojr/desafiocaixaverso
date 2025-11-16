@@ -1,11 +1,10 @@
 package br.gov.caixa.domain.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public record Telemetria(
-        Long id,
+public record TelemetriaAgrupada(
         String servico,
         Long quantidadeChamadas,
         Double mediaTempoRespostaMs,
-        LocalDate data
+        LocalDateTime ultimoAcesso
 ) {}

@@ -19,11 +19,11 @@ public class ConsultarTelemetriaService implements ConsultarTelemetriaUseCase {
 
     @Override
     public TelemetriaResultado consultar() {
-        LocalDate dataInicio = LocalDate.now();
-        LocalDate dataFim = dataInicio.withDayOfMonth(1);
+        LocalDate dataFim = LocalDate.now();
+        LocalDate dataInicio = dataFim.withDayOfMonth(1);
 
         List<Telemetria> servicos = telemetriaRepository.listarPorPeriodo(dataInicio, dataFim);
-        PeriodoTelemetria periodo = new PeriodoTelemetria(dataInicio, dataFim);
+        PeriodoTelemetria periodo = new PeriodoTelemetria(dataFim, dataInicio);
         return new TelemetriaResultado(servicos, periodo);
     }
 }

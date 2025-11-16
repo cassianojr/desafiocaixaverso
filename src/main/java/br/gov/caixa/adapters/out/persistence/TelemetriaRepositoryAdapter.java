@@ -24,12 +24,14 @@ public class TelemetriaRepositoryAdapter implements TelemetriaRepository {
 
     @Override
     @Transactional
-    public void registrarChamada(String servico, double tempoRespostaMs, LocalDateTime data) {
-        //verifica se já existe telemetria nesse dia para o serviço
+    public void registrarChamada(String servico, double tempoRespostaMs, LocalDate data) {
+
+        // busca apenas pelo dia
         List<TelemetriaEntity> result = em.createQuery("""
-                    FROM TelemetriaEntity
-                     WHERE servico = :servico AND data = :data
-                """, TelemetriaEntity.class)
+                FROM TelemetriaEntity
+                 WHERE servico = :servico
+                   AND CAST(data AS date) = CAST(:data AS date)
+            """, TelemetriaEntity.class)
                 .setParameter("servico", servico)
                 .setParameter("data", data)
                 .getResultList();
@@ -40,16 +42,16 @@ public class TelemetriaRepositoryAdapter implements TelemetriaRepository {
             telemetria.setServico(servico);
             telemetria.setData(data);
             telemetria.setQuantidadeChamadas(1L);
-            telemetria.setMediaRespostaMs(tempoRespostaMs);
-            telemetria.setData(data);
+            telemetria.setMediaTempoRespostaMs(tempoRespostaMs);
             em.persist(telemetria);
         } else {
             telemetria = result.getFirst();
 
-            double novaMedia = ((telemetria.getMediaRespostaMs() * telemetria.getQuantidadeChamadas()) + tempoRespostaMs)
+            double novaMedia = ((telemetria.getMediaTempoRespostaMs() * telemetria.getQuantidadeChamadas()) + tempoRespostaMs)
                     / (telemetria.getQuantidadeChamadas() + 1);
-            telemetria.setMediaRespostaMs(novaMedia);
+            telemetria.setMediaTempoRespostaMs(novaMedia);
             telemetria.setQuantidadeChamadas(telemetria.getQuantidadeChamadas() + 1);
+            telemetria.setData(data); // atualiza timestamp
 
             em.merge(telemetria);
         }
