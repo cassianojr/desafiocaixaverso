@@ -1,6 +1,6 @@
 package br.gov.caixa.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record SimulacaoHistorico(
         Long id,
@@ -9,6 +9,6 @@ public record SimulacaoHistorico(
         Double valorInvestido,
         Double valorFinal,
         Integer prazoMeses,
-        LocalDateTime dataSimulacao
+        LocalDate dataSimulacao
 ) {
 }

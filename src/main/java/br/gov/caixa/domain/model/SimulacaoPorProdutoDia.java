@@ -1,10 +1,10 @@
 package br.gov.caixa.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record SimulacaoPorProdutoDia(
         String produto,
-        LocalDateTime data,
+        LocalDate data,
         Long quantidadeSimulacoes,
         Double mediaValorFinal
 ) {}

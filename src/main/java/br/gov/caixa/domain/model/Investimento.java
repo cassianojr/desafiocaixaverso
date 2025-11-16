@@ -1,6 +1,6 @@
 package br.gov.caixa.domain.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record Investimento(
         Long id,
@@ -8,5 +8,5 @@ public record Investimento(
         String tipo,
         Double valor,
         Double rentabilidade,
-        LocalDateTime data
+        LocalDate data
 ) {}

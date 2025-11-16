@@ -2,6 +2,7 @@ package br.gov.caixa.adapters.out.persistence.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,7 +17,7 @@ public class SimulacaoEntity {
     private Double valorInvestido;
     private Double valorFinal;
     private Integer prazoMeses;
-    private LocalDateTime dataSimulacao;
+    private LocalDate dataSimulacao;
 
     public Long getId() {
         return id;
@@ -66,11 +67,11 @@ public class SimulacaoEntity {
         this.prazoMeses = prazoMeses;
     }
 
-    public LocalDateTime getDataSimulacao() {
+    public LocalDate getDataSimulacao() {
         return dataSimulacao;
     }
 
-    public void setDataSimulacao(LocalDateTime dataSimulacao) {
+    public void setDataSimulacao(LocalDate dataSimulacao) {
         this.dataSimulacao = dataSimulacao;
     }
 }

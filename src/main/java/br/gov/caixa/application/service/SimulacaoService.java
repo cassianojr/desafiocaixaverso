@@ -12,7 +12,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.resteasy.reactive.RestResponse;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @ApplicationScoped
 public class SimulacaoService implements SimularInvestimentoUseCase {
@@ -41,7 +41,7 @@ public class SimulacaoService implements SimularInvestimentoUseCase {
         SimulacaoResultado simulacaoResultado = new SimulacaoResultado(
                 produto,
                 resultadoSimulacao,
-                LocalDateTime.now()
+                LocalDate.now()
         );
 
         simulacaoRepository.salvarSimulacao(
