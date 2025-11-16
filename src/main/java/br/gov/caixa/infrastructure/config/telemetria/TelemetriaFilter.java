@@ -25,7 +25,11 @@ public class TelemetriaFilter implements ContainerRequestFilter, ContainerRespon
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-        long inicio = (long) requestContext.getProperty(START_TIME);
+        Object inicioObj = requestContext.getProperty(START_TIME);
+        if(inicioObj == null){
+            return;
+        }
+        long inicio = (long) inicioObj;
         double tempoRespostaMs = System.currentTimeMillis() - inicio;
 
         String path = requestContext.getUriInfo().getPath();

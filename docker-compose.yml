@@ -1,0 +1,50 @@
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: keycloak-caixaverso
+    command:
+      - start-dev
+      - --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: "true"
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./keycloak/realm-export:/opt/keycloak/data/import
+    healthcheck:
+      test: ["CMD-SHELL", "curl --head -fsS http://localhost:8080/health/ready | echo $?"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+
+  api:
+    user: "0:0"
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    container_name: desafio-caixaverso-api
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    environment:
+      QUARKUS_DATASOURCE_JDBC_URL: "jdbc:sqlite:/opt/db/app.db"
+      QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION: "update"
+
+      QUARKUS_OIDC_AUTH_SERVER_URL: "http://keycloak:8080/realms/caixaverso"
+      QUARKUS_OIDC_CLIENT_ID: "api-caixaverso"
+      QUARKUS_OIDC_CREDENTIALS_SECRET: "super-secret"
+
+      QUARKUS_OIDC_CONNECTION_RETRY_COUNT: 20
+      QUARKUS_OIDC_CONNECTION_RETRY_INTERVAL: 2S
+
+    ports:
+      - "8080:8080"
+    volumes:
+      - sqlite_data:/opt/db
+
+
+volumes:
+  sqlite_data:
