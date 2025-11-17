@@ -28,6 +28,9 @@ public class SimulacaoService implements SimularInvestimentoUseCase {
 
     @Override
     public SimulacaoResultado executar(Simulacao simulacao) {
+
+        validarSimulacao(simulacao);
+
         Produto produto = produtoRepository.findByTipo(simulacao.tipoProduto())
                 .orElseThrow(() -> new NegocioException(RestResponse.StatusCode.NOT_FOUND, "Produto não encontrado"));
 
@@ -68,6 +71,35 @@ public class SimulacaoService implements SimularInvestimentoUseCase {
         return simulacaoResultado;
     }
 
+    /**
+     * Valida os dados da simulação.
+     * @param simulacao objeto de simulação a ser validado
+     */
+    private static void validarSimulacao(Simulacao simulacao) {
+        if(simulacao.valor().compareTo(BigDecimal.ZERO) <= 0){
+            throw new NegocioException(RestResponse.StatusCode.BAD_REQUEST, "Valor da simulação deve ser maior que zero");
+        }
+
+        if(simulacao.prazoMeses() <= 0){
+            throw new NegocioException(RestResponse.StatusCode.BAD_REQUEST, "Prazo em meses deve ser maior que zero");
+        }
+
+        if(simulacao.tipoProduto() == null || simulacao.tipoProduto().isEmpty()){
+            throw new NegocioException(RestResponse.StatusCode.BAD_REQUEST, "Tipo de produto inválido");
+        }
+
+        if(simulacao.clienteId() == null || simulacao.clienteId() <= 0){
+            throw new NegocioException(RestResponse.StatusCode.BAD_REQUEST, "ID do cliente inválido");
+        }
+    }
+
+    /**
+     * Calcula o valor final do investimento com base na fórmula de juros compostos.
+     * @param simulacao objeto de simulação contendo valor inicial e prazo
+     * @param produto produto com a rentabilidade anual
+     * @param mc contexto matemático para precisão dos cálculos
+     * @return valor final do investimento
+     */
     private static BigDecimal calcularValorFinal(Simulacao simulacao, Produto produto, MathContext mc) {
         BigDecimal rentabilidadeAnual = produto.rentabilidade(); // ex: 0.12
 

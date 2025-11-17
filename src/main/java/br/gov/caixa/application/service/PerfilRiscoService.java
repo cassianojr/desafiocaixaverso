@@ -1,5 +1,6 @@
 package br.gov.caixa.application.service;
 
+import br.gov.caixa.domain.enums.PerfilInvestidor;
 import br.gov.caixa.domain.model.Investimento;
 import br.gov.caixa.domain.model.PerfilRiscoResultado;
 import br.gov.caixa.domain.port.in.ConsultarPerfilRiscoUseCase;
@@ -18,12 +19,17 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
 
     @Override
     public PerfilRiscoResultado consultar(Long clienteId) {
+
+        if(clienteId == null || clienteId <= 0){
+            throw new IllegalArgumentException("ID do cliente inválido");
+        }
+
         List<Investimento> historico = investimentoRepository.listarPorCliente(clienteId);
 
         if(historico.isEmpty()){
             return new PerfilRiscoResultado(
                     clienteId,
-                    "Conservador",
+                    PerfilInvestidor.CONSERVADOR.name(),
                     0,
                     "Sem histórico de investimentos. Classificado como Conservador."
             );
@@ -37,18 +43,18 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
 
         int pontuacaoFinal = calculaPontuacaoFinal(pontosVolume, pontosFrequencia, pontosPreferencia);
 
-        String perfil = (pontuacaoFinal <= 40) ? "Conservador" :
-                (pontuacaoFinal <= 70) ? "Moderado" : "Agressivo";
+        PerfilInvestidor perfil = (pontuacaoFinal <= 40) ? PerfilInvestidor.CONSERVADOR :
+                (pontuacaoFinal <= 70) ? PerfilInvestidor.MODERADO : PerfilInvestidor.AGRESSIVO;
 
         String descricao = switch (perfil) {
-            case "Conservador" -> "Busca segurança e baixa variação, priorizando liquidez.";
-            case "Moderado" -> "Perfil equilibrado entre segurança e rentabilidade.";
+            case PerfilInvestidor.CONSERVADOR -> "Busca segurança e baixa variação, priorizando liquidez.";
+            case PerfilInvestidor.MODERADO -> "Perfil equilibrado entre segurança e rentabilidade.";
             default -> "Busca maior rentabilidade aceitando riscos mais elevados.";
         };
 
         return new PerfilRiscoResultado(
                 clienteId,
-                perfil,
+                perfil.name(),
                 pontuacaoFinal,
                 descricao
         );
