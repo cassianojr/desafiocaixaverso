@@ -7,6 +7,7 @@ import br.gov.caixa.domain.port.out.InvestimentoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @ApplicationScoped
@@ -28,30 +29,17 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
             );
         }
 
-        // Calcular pontuação baseada no volume total investido
-        double volume = historico.stream().mapToDouble(Investimento::valor).sum();
-        int pontosVolume = (volume < 5000) ? 10 : (volume < 20000) ? 20 : 30;
+        int pontosVolume = calulaPontosPorVoumeTotal(historico);
 
-        // Calcular pontuação baseada na diversificação dos investimentos
-        int quantidade = historico.size();
-        int pontosFrequencia = (quantidade < 2)? 10 : (quantidade < 5) ? 20 : 30;
+        int pontosFrequencia = calculaPontosPorFrequencia(historico);
 
-        // Calcular pontuação baseada na liquidez dos investimentos
-        long pontosDeAltaLiquidez = historico.stream()
-                .filter(investimento -> investimento.tipo().toUpperCase().contains("CDB") ||
-                        investimento.tipo().toUpperCase().contains("LCI") ||
-                        investimento.tipo().toUpperCase().contains("LCA"))
-                .count();
+        int pontosPreferencia = calculaPontosPorPreferencia(historico);
 
-        boolean preferenciaAltaLiquidez = pontosDeAltaLiquidez >= (historico.size() / 2.0);
-
-        int pontosPreferencia = preferenciaAltaLiquidez ? 10 : 20;
-
-        //pontuacao total
-        int pontuacaoFinal = pontosVolume + pontosFrequencia + pontosPreferencia;
+        int pontuacaoFinal = calculaPontuacaoFinal(pontosVolume, pontosFrequencia, pontosPreferencia);
 
         String perfil = (pontuacaoFinal <= 40) ? "Conservador" :
                 (pontuacaoFinal <= 70) ? "Moderado" : "Agressivo";
+
         String descricao = switch (perfil) {
             case "Conservador" -> "Busca segurança e baixa variação, priorizando liquidez.";
             case "Moderado" -> "Perfil equilibrado entre segurança e rentabilidade.";
@@ -64,5 +52,69 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
                 pontuacaoFinal,
                 descricao
         );
+    }
+
+    /**
+     * Calcula a pontuação final somando os pontos de volume, frequência e preferência.
+     * @param pontosVolume pontos por volume total investido
+     * @param pontosFrequencia pontos por frequência de investimentos
+     * @param pontosPreferencia pontos por preferência de investimentos
+     * @return pontuação final
+     */
+    private static int calculaPontuacaoFinal(int pontosVolume, int pontosFrequencia, int pontosPreferencia) {
+        return pontosVolume + pontosFrequencia + pontosPreferencia;
+    }
+
+    /**
+     * Calcula os pontos com base na preferência por investimentos de alta liquidez.
+     *  Se mais da metade dos investimentos forem de alta liquidez (CDB, LCI, LCA), retorna 10 pontos; caso contrário, retorna 20 pontos.
+     * @param historico o histórico de investimentos do cliente
+     * @return pontuação baseada na preferência por alta liquidez
+     */
+    private static int calculaPontosPorPreferencia(List<Investimento> historico) {
+        long altaLiquidez = historico.stream()
+                .filter(i ->
+                        i.tipo().toUpperCase().contains("CDB")
+                                || i.tipo().toUpperCase().contains("LCI")
+                                || i.tipo().toUpperCase().contains("LCA")
+                )
+                .count();
+
+        boolean preferenciaAltaLiquidez =
+                altaLiquidez >= (historico.size() / 2.0);
+
+        return preferenciaAltaLiquidez ? 10 : 20;
+    }
+
+    /**
+     * Calcula os pontos com base na frequência de investimentos do cliente.
+     * Se o cliente tiver menos de 2 investimentos, retorna 10 pontos;
+     * se tiver entre 2 e 4 investimentos, retorna 20 pontos;
+     * caso contrário, retorna 30 pontos.
+     * @param historico o histórico de investimentos do cliente
+     * @return pontuação baseada na frequência de investimentos
+     */
+    private static int calculaPontosPorFrequencia(List<Investimento> historico) {
+        int quantidade = historico.size();
+        return (quantidade < 2) ? 10 :
+                (quantidade < 5) ? 20 : 30;
+    }
+
+    /**
+     * Calcula os pontos com base no volume total investido pelo cliente.
+     * Se o volume total for menor que R$ 5.000, retorna 10 pontos;
+     * se estiver entre R$ 5.000 e R$ 20.000, retorna 20 pontos;
+     * caso contrário, retorna 30 pontos.
+     * @param historico o histórico de investimentos do cliente
+     * @return pontuação baseada no volume total investido
+     */
+    private static int calulaPontosPorVoumeTotal(List<Investimento> historico) {
+        BigDecimal volumeTotal = historico.stream()
+                .map(Investimento::valor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        // Regra de pontuação usando compareTo
+        return (volumeTotal.compareTo(BigDecimal.valueOf(5000)) < 0) ? 10 :
+                (volumeTotal.compareTo(BigDecimal.valueOf(20000)) < 0) ? 20 : 30;
     }
 }

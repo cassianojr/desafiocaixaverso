@@ -2,6 +2,8 @@ package br.gov.caixa.adapters.out.persistence.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name="produto")
 public class ProdutoEntity {
@@ -11,7 +13,7 @@ public class ProdutoEntity {
     private Long id;
     private String nome;
     private String tipo;
-    private Double rentabilidade;
+    private BigDecimal rentabilidade;
     private String risco;
 
     public Long getId() {
@@ -38,11 +40,11 @@ public class ProdutoEntity {
         this.tipo = tipo;
     }
 
-    public Double getRentabilidade() {
+    public BigDecimal getRentabilidade() {
         return rentabilidade;
     }
 
-    public void setRentabilidade(Double rentabilidade) {
+    public void setRentabilidade(BigDecimal rentabilidade) {
         this.rentabilidade = rentabilidade;
     }
 

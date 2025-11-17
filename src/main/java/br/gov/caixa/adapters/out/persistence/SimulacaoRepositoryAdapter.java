@@ -10,6 +10,7 @@ import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class SimulacaoRepositoryAdapter implements SimulacaoRepository {
 
     @Override
     @Transactional
-    public void salvarSimulacao(Long aLong, String nome, Double valor, double valorFinal, Integer integer, LocalDate localDateTime) {
+    public void salvarSimulacao(Long aLong, String nome, BigDecimal valor, BigDecimal valorFinal, Integer integer, LocalDate localDateTime) {
         SimulacaoEntity simulacao = new SimulacaoEntity();
         simulacao.setClienteId(aLong);
         simulacao.setProduto(nome);

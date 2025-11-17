@@ -2,6 +2,7 @@ package br.gov.caixa.adapters.out.persistence.entity;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -14,8 +15,8 @@ public class SimulacaoEntity {
     private Long id;
     private Long clienteId;
     private String produto;
-    private Double valorInvestido;
-    private Double valorFinal;
+    private BigDecimal valorInvestido;
+    private BigDecimal valorFinal;
     private Integer prazoMeses;
     private LocalDate dataSimulacao;
 
@@ -43,19 +44,19 @@ public class SimulacaoEntity {
         this.produto = produto;
     }
 
-    public Double getValorInvestido() {
+    public BigDecimal getValorInvestido() {
         return valorInvestido;
     }
 
-    public void setValorInvestido(Double valorInvestido) {
+    public void setValorInvestido(BigDecimal valorInvestido) {
         this.valorInvestido = valorInvestido;
     }
 
-    public Double getValorFinal() {
+    public BigDecimal getValorFinal() {
         return valorFinal;
     }
 
-    public void setValorFinal(Double valorFinal) {
+    public void setValorFinal(BigDecimal valorFinal) {
         this.valorFinal = valorFinal;
     }
 

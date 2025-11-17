@@ -1,9 +1,11 @@
 package br.gov.caixa.domain.model;
 
+import java.math.BigDecimal;
+
 public record Produto(
         Long id,
         String nome,
         String tipo,
-        Double rentabilidade,
+        BigDecimal rentabilidade,
         String risco
 ) {}

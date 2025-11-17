@@ -1,12 +1,13 @@
 package br.gov.caixa.domain.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record Investimento(
         Long id,
         Long clienteId,
         String tipo,
-        Double valor,
-        Double rentabilidade,
+        BigDecimal valor,
+        BigDecimal rentabilidade,
         LocalDate data
 ) {}

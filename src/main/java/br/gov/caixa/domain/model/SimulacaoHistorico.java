@@ -1,13 +1,14 @@
 package br.gov.caixa.domain.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record SimulacaoHistorico(
         Long id,
         Long clienteId,
         String produto,
-        Double valorInvestido,
-        Double valorFinal,
+        BigDecimal valorInvestido,
+        BigDecimal valorFinal,
         Integer prazoMeses,
         LocalDate dataSimulacao
 ) {

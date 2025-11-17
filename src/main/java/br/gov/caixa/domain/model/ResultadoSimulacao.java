@@ -1,8 +1,10 @@
 package br.gov.caixa.domain.model;
 
+import java.math.BigDecimal;
+
 public record ResultadoSimulacao(
-        Double valorFinal,
-        Double rentabilidadeEfetiva,
+        BigDecimal valorFinal,
+        BigDecimal rentabilidadeEfetiva,
         Integer prazoMeses
 ) {
 }
