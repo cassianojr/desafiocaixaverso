@@ -18,7 +18,7 @@ public enum PerfilInvestidor {
             case "conservador" -> CONSERVADOR;
             case "moderado" -> MODERADO;
             case "agressivo" -> AGRESSIVO;
-            default -> MODERADO;
+            default -> null;
         };
     }
 

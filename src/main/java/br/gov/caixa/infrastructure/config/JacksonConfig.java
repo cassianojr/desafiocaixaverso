@@ -19,7 +19,7 @@ public class JacksonConfig implements ObjectMapperCustomizer {
     @Override
     public void customize(ObjectMapper objectMapper) {
         FilterProvider filters = new SimpleFilterProvider()
-                .addFilter(FILTER_NOT_INITIALIZED_FIELDS, SimpleBeanPropertyFilter.serializeAllExcept());
+            .addFilter(FILTER_NOT_INITIALIZED_FIELDS, new IgnoreInitializedFieldsFilter());
         objectMapper.setFilterProvider(filters);
     }
 

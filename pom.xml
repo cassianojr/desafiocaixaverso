@@ -129,6 +129,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Test security to enable @TestSecurity for role injection -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-test-security</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

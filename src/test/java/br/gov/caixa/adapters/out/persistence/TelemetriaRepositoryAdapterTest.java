@@ -6,6 +6,8 @@ import br.gov.caixa.domain.model.Telemetria;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.BeforeEach;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -28,6 +30,12 @@ class TelemetriaRepositoryAdapterTest {
 
     @Inject
     EntityModelMapper mapper;
+
+    @BeforeEach
+    @Transactional
+    void limparTabela() {
+        em.createQuery("DELETE FROM TelemetriaEntity").executeUpdate();
+    }
 
     @Test
     @DisplayName("Registrar primeira chamada deve criar registro com qtd=1 e media=tempo")

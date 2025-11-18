@@ -1,11 +1,13 @@
 package br.gov.caixa.adapters.out.persistence.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name="produto")
+@JsonFilter(br.gov.caixa.infrastructure.config.JacksonConfig.FILTER_NOT_INITIALIZED_FIELDS)
 public class ProdutoEntity {
 
     @Id
