@@ -12,7 +12,7 @@ services:
     ports:
       - "8081:8080"
     volumes:
-      - ./keycloak/realm-export:/opt/keycloak/data/import
+    - ./keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     healthcheck:
       test: ["CMD-SHELL", "curl --head -fsS http://localhost:8080/health/ready | echo $?"]
       interval: 10s
@@ -53,6 +53,7 @@ services:
       QUARKUS_DATASOURCE_JDBC_URL: "jdbc:sqlserver://sqlserver:1433;encrypt=false"
 
       QUARKUS_OIDC_AUTH_SERVER_URL: "http://keycloak:8080/realms/caixaverso"
+      QUARKUS_OIDC_TOKEN_ISSUER: "http://localhost:8081/realms/caixaverso"
       QUARKUS_OIDC_CLIENT_ID: "api-caixaverso"
       QUARKUS_OIDC_CREDENTIALS_SECRET: "super-secret"
 

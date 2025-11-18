@@ -1,0 +1,65 @@
+{
+  "realm": "caixaverso",
+  "enabled": true,
+
+  "roles": {
+    "realm": [
+      {
+        "name": "admin",
+        "description": "Administrador do sistema"
+      },
+      {
+        "name": "user",
+        "description": "Usuário comum"
+      }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "api-caixaverso",
+      "secret": "super-secret",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": ["*"],
+      "webOrigins": ["*"]
+    }
+  ],
+
+  "users": [
+    {
+      "username": "useradmin",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "user@caixaverso.com",
+      "firstName": "Admin",
+      "lastName": "Caixaverso",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["admin"]
+    },
+    {
+      "username": "user",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "user1@caixaverso.com",
+      "firstName": "User",
+      "lastName": "Caixaverso",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["user"]
+    }
+  ]
+}

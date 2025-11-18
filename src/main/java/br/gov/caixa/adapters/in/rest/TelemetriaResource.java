@@ -1,6 +1,8 @@
 package br.gov.caixa.adapters.in.rest;
 
 import br.gov.caixa.domain.port.in.ConsultarTelemetriaUseCase;
+import br.gov.caixa.infrastructure.security.PerfisPermitidos;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -16,6 +18,7 @@ public class TelemetriaResource {
     ConsultarTelemetriaUseCase consultarTelemetriaUseCase;
 
     @GET
+    @RolesAllowed({PerfisPermitidos.ADMIN})
     public Response consultarTelemetria() {
         return Response.ok(consultarTelemetriaUseCase.consultar()).build();
     }
