@@ -23,7 +23,7 @@ public class ConsultarTelemetriaService implements ConsultarTelemetriaUseCase {
         LocalDate dataInicio = dataFim.withDayOfMonth(1);
 
         List<Telemetria> servicos = telemetriaRepository.listarPorPeriodo(dataInicio, dataFim);
-        PeriodoTelemetria periodo = new PeriodoTelemetria(dataFim, dataInicio);
+        PeriodoTelemetria periodo = new PeriodoTelemetria(dataInicio, dataFim);
         return new TelemetriaResultado(servicos, periodo);
     }
 }
