@@ -17,7 +17,7 @@
         <surefire-plugin.version>3.5.4</surefire-plugin.version>
 
         <!-- Sonar -->
-        <sonar.projectKey>cassianojr_cassianojr</sonar.projectKey>
+        <sonar.projectKey>cassianojr_desafiocaixaverso</sonar.projectKey>
         <sonar.organization>cassianojr</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>

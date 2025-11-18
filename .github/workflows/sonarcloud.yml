@@ -53,7 +53,7 @@ jobs:
         with:
           # Additional arguments for the SonarScanner CLI
           args:
-            -Dsonar.projectKey=ccassianojr_desafiocaixaverso
+            -Dsonar.projectKey=cassianojr_desafiocaixaverso
             -Dsonar.organization=cassianojr
             -Dsonar.host.url=https://sonarcloud.io
             -Dsonar.coverage.jacoco.xmlReportPaths=target/jacoco-xml/jacoco.xml
