@@ -2,6 +2,8 @@ package br.gov.caixa.adapters.in.rest;
 
 import br.gov.caixa.domain.port.in.ConsultarSimulacoesPorProdutoDiaUseCase;
 import br.gov.caixa.domain.port.in.ConsultarSimulacoesUseCase;
+import br.gov.caixa.infrastructure.security.PerfisPermitidos;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -20,6 +22,7 @@ public class SimulacoesResource {
     ConsultarSimulacoesPorProdutoDiaUseCase consultarSimulacoesPorProdutoDia;
 
     @GET
+    @RolesAllowed({PerfisPermitidos.ADMIN, PerfisPermitidos.USER})
     public Response listarSimulacoes() {
         var simulacoes = consultarSimulacoesUse.listarTodas();
         return Response.ok(simulacoes).build();
@@ -27,6 +30,7 @@ public class SimulacoesResource {
 
     @GET
     @Path("/por-produto-dia")
+    @RolesAllowed({PerfisPermitidos.ADMIN, PerfisPermitidos.USER})
     public Response consultarSimulacoes() {
         return Response.ok(consultarSimulacoesPorProdutoDia.consultar()).build();
     }

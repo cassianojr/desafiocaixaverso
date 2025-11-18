@@ -1,6 +1,8 @@
 package br.gov.caixa.adapters.in.rest;
 
 import br.gov.caixa.domain.port.in.ConsultarInvestimentosUseCase;
+import br.gov.caixa.infrastructure.security.PerfisPermitidos;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -18,6 +20,7 @@ public class InvestimentosResource {
 
     @GET
     @Path("{clienteId}")
+    @RolesAllowed({PerfisPermitidos.ADMIN, PerfisPermitidos.USER})
     public Response consultarInvestimento(@PathParam("clienteId") Long clienteId) {
         return Response.ok(consultarInvestimentosUseCase.consultar(clienteId)).build();
     }
