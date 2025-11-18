@@ -1,0 +1,57 @@
+var jsonData = JSON.parse(responseBody);
+postman.setGlobalVariable("tokenPBSIntranetDES", jsonData.access_token);
+
+var jsonData = pm.response.json();
+	pm.environment.set("jwt", jsonData.access_token);
+	
+
+	 function parseJwt (token,part) {
+	   var base64Url = token.split('.')[part];
+	   var words = CryptoJS.enc.Base64.parse(base64Url);
+	   var jsonPayload = CryptoJS.enc.Utf8.stringify(words);
+	   return  JSON.parse(jsonPayload);
+	};
+	
+
+	var jwtInfo ={};
+	jwtInfo.size = jsonData.access_token.length;
+	jwtInfo.header = parseJwt(jsonData.access_token,0);
+	jwtInfo.payload = parseJwt(jsonData.access_token,1);
+	jwtInfo.signature = jsonData.access_token.split('.')[2];
+	jwtInfo.expires = ((jwtInfo.payload.exp-Date.now().valueOf()/1000)/60).toFixed(1);
+	console.log(jwtInfo);
+	
+
+	var template = `
+	<b>JWT  Size:{{response.size}}Bytes. Expires in {{response.expires}} minutes</b><br>
+	<b>Header </b>
+	    <table>
+	        <tr><th>Property</th><th>Value</th></tr>
+	        {{#each response.header}}
+	            <tr><td>{{@key}}</td><td>{{.}}</td></tr>
+
+	        {{/each}}
+	    </table>
+	<b>Payload</b>
+	    <table>
+	        <tr><th>Property</th><th>Value</th></tr>
+	        {{#each response.payload}}
+	            <tr><td>{{@key}}</td><td>{{.}}</td></tr>
+
+	        {{/each}}
+	    </table>
+	 <b>Claims</b>
+	    <table bgcolor="#FFFFFF">
+	        <tr><th>Claim</th><th>Value</th></tr>
+	        {{#each response.payload.Claims}}
+	            <tr>
+	                {{#each this}}
+	                    <td>{{.}}</td>       
+	                {{/each}}
+	            </tr>
+	        {{/each}}
+	    </table>
+	  <i>signature:{{response.signature}}</i>
+	`;
+	pm.visualizer.set(template, {response: jwtInfo});
+
