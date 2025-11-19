@@ -1,79 +1,96 @@
-# desafiocaixaverso
+# Desafio Caixaverso
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+API construída em Quarkus demonstrando simulação de investimentos, recomendação de produtos e cálculo de perfil de risco usando arquitetura hexagonal (ports & adapters). Inclui autenticação via Keycloak, persistência em SQL Server e telemetria agregada diária.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Sumário
+1. Visão Geral
+2. Como Executar (Docker e local)
+3. Arquitetura Hexagonal (resumo)
+4. Endpoints
+5. Decisões e Suposições
+6. Desenvolvimento e Build
+7. Referências
 
-## Running the application in dev mode
+## 1. Visão Geral
+O domínio encapsula regras de simulação, seleção de produtos e classificação de perfil. Adapters de entrada expõem endpoints REST e adapters de saída persistem dados via JPA. Segurança baseada em roles (`user`, `admin`) controladas pelo Keycloak.
 
-You can run your application in dev mode that enables live coding using:
+## 2. Como Executar
+### 2.1 Via Docker Compose (recomendado)
+Pré-requisitos: Docker instalado. Portas livres: 8080 (API), 8081 (Keycloak), 1433 (SQL Server).
 
-```shell script
+```powershell
+# (opcional) construir artefato local
+./mvnw package -DskipTests
+
+# subir tudo
+docker compose up --build -d
+
+# acompanhar logs
+docker compose logs -f api
+```
+
+Parar e remover volumes: `docker compose down -v`
+
+Detalhes completos: `docs/execucao-docker.md`.
+
+### 2.2 Dev Mode Local (hot reload)
+Suba apenas dependências externas:
+```powershell
+docker compose up -d keycloak sqlserver
 ./mvnw quarkus:dev
 ```
+Dev UI: <http://localhost:8080/q/dev/>
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+## 3. Arquitetura Hexagonal (Resumo)
+Camadas principais:
+- Dominio: modelos, regras, interfaces (ports). Sem dependência de Quarkus.
+- Aplicação: casos de uso em `application.service` orquestrando domínio e ports.
+- Adapters In: `adapters.in.rest` expondo REST com JAX-RS.
+- Adapters Out: `adapters.out.persistence` mapeando entidades JPA e conversões.
+- Infraestrutura: configuração (OIDC, telemetria, segurança) em `infrastructure`.
 
-## Packaging and running the application
+Fluxo: Resource -> Use Case -> Port Out -> Persistência -> Retorno. Domínio permanece isolado de detalhes técnicos.
 
-The application can be packaged using:
+Documentação completa: `docs/arquitetura-hexagonal.md`.
 
-```shell script
-./mvnw package
+## 4. Endpoints
+| Método | Rota | Descrição | Roles |
+|--------|------|-----------|-------|
+| POST | /simular-investimento | Executa simulação | user, admin |
+| GET | /simulacoes | Lista simulações | user, admin |
+| GET | /simulacoes/por-produto-dia | Agrupamento simulações por produto/dia | user, admin |
+| GET | /investimentos/{clienteId} | Histórico de investimentos cliente | user, admin |
+| GET | /perfil-risco/{clienteId} | Calcula perfil de risco | user, admin |
+| GET | /produtos-recomendados/{perfil} | Produtos para perfil informado | user, admin |
+| GET | /telemetria | Métricas agregadas mês corrente | admin |
+
+## 5. Decisões e Suposições
+Resumo:
+- Cliente não é entidade persistida; `clienteId` é referência externa.
+- Fórmula de simulação: composição mensal com rentabilidade anual.
+- Sem impostos (IR/IOF) por ausência de especificação.
+- Seleção de produto: maior rentabilidade dentro do tipo solicitado.
+- Perfil de risco: pontuação discreta por volume, frequência e preferência.
+- Telemetria: linha diária por serviço, mês corrente.
+- Segurança: Keycloak + JWT; somente `admin` acessa telemetria.
+- Simulação guarda produto inline evitando FK.
+
+Documento completo: `docs/decisoes-arquitetura.md`.
+
+## 6. Estrutura de Pastas (alto nível)
+```
+src/main/java/br/gov/caixa/
+├── domain
+├── application/service
+├── adapters/in/rest
+├── adapters/out/persistence
+└── infrastructure
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+## 7. Documentação Complementar
+Consulte pasta `docs/`:
+- `arquitetura-hexagonal.md`
+- `execucao-docker.md`
+- `decisoes-arquitetura.md`
+- `dominio.md`
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/desafiocaixaverso-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- SmallRye OpenAPI ([guide](https://quarkus.io/guides/openapi-swaggerui)): Document your REST APIs with OpenAPI - comes with Swagger UI
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- OpenID Connect ([guide](https://quarkus.io/guides/security-openid-connect)): Verify Bearer access tokens and authenticate users with Authorization Code Flow
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
-
-## Provided Code
-
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
