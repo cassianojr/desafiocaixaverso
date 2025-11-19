@@ -41,7 +41,7 @@ class PerfilRiscoResourceTest {
     @DisplayName("GET /perfil-risco/{id} com id inválido propaga exceção")
     void consultarPerfilIdInvalido() {
         when(useCase.consultar(0L)).thenThrow(new NegocioException(RestResponse.StatusCode.BAD_REQUEST, "ID do cliente inválido"));
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> resource.consultarPerfilRisco(0L));
+        NegocioException ex = assertThrows(NegocioException.class, () -> resource.consultarPerfilRisco(0L));
         assertEquals("ID do cliente inválido", ex.getMessage());
         verify(useCase).consultar(0L);
     }
