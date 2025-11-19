@@ -2,6 +2,17 @@
 
 API construída em Quarkus demonstrando simulação de investimentos, recomendação de produtos e cálculo de perfil de risco usando arquitetura hexagonal (ports & adapters). Inclui autenticação via Keycloak, persistência em SQL Server e telemetria agregada diária.
 
+## Análise do SONAR
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=bugs)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=coverage)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
+
 ## Sumário
 1. Visão Geral
 2. Como Executar (Docker e local)
