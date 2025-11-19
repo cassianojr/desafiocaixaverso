@@ -1,6 +1,7 @@
 package br.gov.caixa.application.service;
 
 import br.gov.caixa.domain.enums.PerfilInvestidor;
+import br.gov.caixa.domain.exception.NegocioException;
 import br.gov.caixa.domain.model.Investimento;
 import br.gov.caixa.domain.model.PerfilRiscoResultado;
 import br.gov.caixa.domain.port.out.InvestimentoRepository;
@@ -36,8 +37,8 @@ class PerfilRiscoServiceTest {
     @Test
     @DisplayName("Deve lançar exceção para clienteId inválido (null ou <=0)")
     void clienteIdInvalido() {
-        assertThrows(IllegalArgumentException.class, () -> service.consultar(null));
-        assertThrows(IllegalArgumentException.class, () -> service.consultar(0L));
+        assertThrows(NegocioException.class, () -> service.consultar(null));
+        assertThrows(NegocioException.class, () -> service.consultar(0L));
         verifyNoInteractions(investimentoRepository);
     }
 

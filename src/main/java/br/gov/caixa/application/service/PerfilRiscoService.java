@@ -1,12 +1,14 @@
 package br.gov.caixa.application.service;
 
 import br.gov.caixa.domain.enums.PerfilInvestidor;
+import br.gov.caixa.domain.exception.NegocioException;
 import br.gov.caixa.domain.model.Investimento;
 import br.gov.caixa.domain.model.PerfilRiscoResultado;
 import br.gov.caixa.domain.port.in.ConsultarPerfilRiscoUseCase;
 import br.gov.caixa.domain.port.out.InvestimentoRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.jboss.resteasy.reactive.RestResponse;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,7 +23,7 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
     public PerfilRiscoResultado consultar(Long clienteId) {
 
         if(clienteId == null || clienteId <= 0){
-            throw new IllegalArgumentException("ID do cliente inválido");
+            throw new NegocioException(RestResponse.StatusCode.BAD_REQUEST, "ID do cliente inválido.");
         }
 
         List<Investimento> historico = investimentoRepository.listarPorCliente(clienteId);
