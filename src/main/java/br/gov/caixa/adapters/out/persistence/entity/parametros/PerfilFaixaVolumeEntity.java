@@ -1,4 +1,4 @@
-package br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil;
+package br.gov.caixa.adapters.out.persistence.entity.parametros;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 

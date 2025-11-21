@@ -1,10 +1,10 @@
 package br.gov.caixa.domain.port.out;
 
 
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilFaixaFrequenciaEntity;
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilFaixaVolumeEntity;
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilInvestidorFaixaPontuacaoEntity;
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilPreferenciaLiquidezEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilFaixaFrequenciaEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilFaixaVolumeEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilInvestidorFaixaPontuacaoEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilPreferenciaLiquidezEntity;
 
 import java.math.BigDecimal;
 import java.util.Optional;

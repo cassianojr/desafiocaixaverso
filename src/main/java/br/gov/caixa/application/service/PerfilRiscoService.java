@@ -1,8 +1,8 @@
 package br.gov.caixa.application.service;
 
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilFaixaFrequenciaEntity;
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilFaixaVolumeEntity;
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilPreferenciaLiquidezEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilFaixaFrequenciaEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilFaixaVolumeEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilPreferenciaLiquidezEntity;
 import br.gov.caixa.domain.enums.PerfilInvestidor;
 import br.gov.caixa.domain.exception.NegocioException;
 import br.gov.caixa.domain.model.Investimento;
@@ -107,10 +107,16 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
     }
 
     private String buscarDescricaoPerfil(PerfilInvestidor perfil) {
-        return perfil == PerfilInvestidor.CONSERVADOR
-                ? "Busca segurança e baixa variação, priorizando liquidez."
-                : perfil == PerfilInvestidor.MODERADO
-                ? "Perfil equilibrado entre segurança e rentabilidade."
-                : "Busca maior rentabilidade aceitando riscos mais elevados.";
+        String descricao;
+
+        if (perfil == PerfilInvestidor.CONSERVADOR) {
+            descricao = "Busca segurança e baixa variação, priorizando liquidez.";
+        } else if (perfil == PerfilInvestidor.MODERADO) {
+            descricao = "Perfil equilibrado entre segurança e rentabilidade.";
+        } else {
+            descricao = "Busca maior rentabilidade aceitando riscos mais elevados.";
+        }
+
+        return descricao;
     }
 }

@@ -1,9 +1,9 @@
 package br.gov.caixa.application.service;
 
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilFaixaFrequenciaEntity;
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilFaixaVolumeEntity;
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilInvestidorFaixaPontuacaoEntity;
-import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilPreferenciaLiquidezEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilFaixaFrequenciaEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilFaixaVolumeEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilInvestidorFaixaPontuacaoEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametros.PerfilPreferenciaLiquidezEntity;
 import br.gov.caixa.domain.enums.PerfilInvestidor;
 import br.gov.caixa.domain.exception.NegocioException;
 import br.gov.caixa.domain.model.Investimento;
