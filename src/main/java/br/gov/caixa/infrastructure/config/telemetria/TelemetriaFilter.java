@@ -31,7 +31,7 @@ public class TelemetriaFilter implements ContainerRequestFilter, ContainerRespon
             return;
         }
         long inicio = (long) inicioObj;
-        double tempoRespostaMs = System.currentTimeMillis() - inicio;
+        double tempoRespostaMs = (double) (System.currentTimeMillis() - inicio);
 
         String path = requestContext.getUriInfo().getPath();
         telemetriaRepository.registrarChamada(path, tempoRespostaMs, LocalDate.now());

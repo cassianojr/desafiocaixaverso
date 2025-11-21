@@ -45,8 +45,7 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
 
         int pontuacaoFinal = calculaPontuacaoFinal(pontosVolume, pontosFrequencia, pontosPreferencia);
 
-        PerfilInvestidor perfil = (pontuacaoFinal <= 40) ? PerfilInvestidor.CONSERVADOR :
-                (pontuacaoFinal <= 70) ? PerfilInvestidor.MODERADO : PerfilInvestidor.AGRESSIVO;
+        PerfilInvestidor perfil = calcularPerfilInvestidor(pontuacaoFinal);
 
         String descricao = switch (perfil) {
             case PerfilInvestidor.CONSERVADOR -> "Busca segurança e baixa variação, priorizando liquidez.";
@@ -60,6 +59,24 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
                 pontuacaoFinal,
                 descricao
         );
+    }
+
+    /**
+     * Calcula o perfil do investidor com base na pontuação final.
+     * @param pontuacaoFinal
+     * @return
+     */
+    private static PerfilInvestidor calcularPerfilInvestidor(int pontuacaoFinal) {
+        PerfilInvestidor perfil;
+
+        if (pontuacaoFinal <= 40) {
+            perfil = PerfilInvestidor.CONSERVADOR;
+        } else {
+            perfil = (pontuacaoFinal <= 70)
+                    ? PerfilInvestidor.MODERADO
+                    : PerfilInvestidor.AGRESSIVO;
+        }
+        return perfil;
     }
 
     /**
@@ -104,8 +121,17 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
      */
     private static int calculaPontosPorFrequencia(List<Investimento> historico) {
         int quantidade = historico.size();
-        return (quantidade < 2) ? 10 :
-                (quantidade < 5) ? 20 : 30;
+
+        int resultado;
+        if (quantidade < 2) {
+            resultado = 10;
+        } else if (quantidade < 5) {
+            resultado = 20;
+        } else {
+            resultado = 30;
+        }
+
+        return resultado;
     }
 
     /**
@@ -122,7 +148,16 @@ public class PerfilRiscoService implements ConsultarPerfilRiscoUseCase {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         // Regra de pontuação usando compareTo
-        return (volumeTotal.compareTo(BigDecimal.valueOf(5000)) < 0) ? 10 :
-                (volumeTotal.compareTo(BigDecimal.valueOf(20000)) < 0) ? 20 : 30;
+        int resultado;
+
+        if (volumeTotal.compareTo(BigDecimal.valueOf(5000)) < 0) {
+            resultado = 10;
+        } else if (volumeTotal.compareTo(BigDecimal.valueOf(20000)) < 0) {
+            resultado = 20;
+        } else {
+            resultado = 30;
+        }
+
+        return resultado;
     }
 }

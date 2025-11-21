@@ -114,8 +114,7 @@ public class SimulacaoService implements SimularInvestimentoUseCase {
         BigDecimal fatorAcumulado = fatorMensal.pow(simulacao.prazoMeses(), mc);
 
         // valorFinal = valorInicial * fator
-        BigDecimal valorFinal = simulacao.valor()
+        return simulacao.valor()
                 .multiply(fatorAcumulado, mc);
-        return valorFinal;
     }
 }

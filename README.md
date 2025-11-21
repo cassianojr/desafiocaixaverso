@@ -4,14 +4,15 @@ API construída em Quarkus demonstrando simulação de investimentos, recomenda�
 
 ## Análise do SONAR
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=bugs)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=coverage)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
-[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_caixaverso&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=cassianojr_caixaverso)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_desafiocaixaverso&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=cassianojr_desafiocaixaverso)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_desafiocaixaverso&metric=bugs)](https://sonarcloud.io/summary/new_code?id=cassianojr_desafiocaixaverso)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_desafiocaixaverso&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=cassianojr_desafiocaixaverso)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_desafiocaixaverso&metric=coverage)](https://sonarcloud.io/summary/new_code?id=cassianojr_desafiocaixaverso)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_desafiocaixaverso&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=cassianojr_desafiocaixaverso)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_desafiocaixaverso&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=cassianojr_desafiocaixaverso)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_desafiocaixaverso&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=cassianojr_desafiocaixaverso)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_desafiocaixaverso&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=cassianojr_desafiocaixaverso)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=cassianojr_desafiocaixaverso&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=cassianojr_desafiocaixaverso)
 
 ## Sumário
 1. Visão Geral
