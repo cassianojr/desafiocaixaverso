@@ -11,7 +11,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-@Path("/produtos-recomendados")
+@Path("/v1/produtos-recomendados")
 @Produces(MediaType.APPLICATION_JSON)
 public class ProdutosRecomendadosResource {
 

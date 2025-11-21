@@ -33,13 +33,13 @@ class TelemetriaResourceTest {
     }
 
     @Test
-    @DisplayName("GET /telemetria vazio retorna lista servicos vazia e periodo válido")
+    @DisplayName("GET /v1/telemetria vazio retorna lista servicos vazia e periodo válido")
     @TestSecurity(user = "admin", roles = {"admin"})
     void consultarTelemetriaVazio() {
         given()
             .accept(ContentType.JSON)
         .when()
-            .get("/telemetria")
+            .get("/v1/telemetria")
         .then()
             .statusCode(200)
             .body("servicos", hasSize(0))
@@ -55,20 +55,20 @@ class TelemetriaResourceTest {
         LocalDate inicioMes = hoje.withDayOfMonth(1);
         LocalDate foraMes = inicioMes.minusDays(1); // deve ser ignorado
 
-        telemetriaRepository.registrarChamada("/investimentos", 100.0, hoje.minusDays(1));
-        telemetriaRepository.registrarChamada("/simulacoes", 50.0, hoje);
-        telemetriaRepository.registrarChamada("/simulacoes", 150.0, hoje);
-        telemetriaRepository.registrarChamada("/fora", 200.0, foraMes); // fora do mês
+        telemetriaRepository.registrarChamada("/v1/investimentos", 100.0, hoje.minusDays(1));
+        telemetriaRepository.registrarChamada("/v1/simulacoes", 50.0, hoje);
+        telemetriaRepository.registrarChamada("/v1/simulacoes", 150.0, hoje);
+        telemetriaRepository.registrarChamada("/v1/fora", 200.0, foraMes); // fora do mês
 
         given()
             .accept(ContentType.JSON)
         .when()
-            .get("/telemetria")
+            .get("/v1/telemetria")
         .then()
             .statusCode(200)
             .body("servicos.size()", greaterThanOrEqualTo(2))
-            .body("servicos.servico", hasItems("/investimentos", "/simulacoes"))
-            .body("servicos.servico", not(hasItem("/fora")))
+            .body("servicos.servico", hasItems("/v1/investimentos", "/v1/simulacoes"))
+            .body("servicos.servico", not(hasItem("/v1/fora")))
             .body("periodo.inicio", equalTo(inicioMes.toString()))
             .body("periodo.fim", equalTo(hoje.toString()));
     }
@@ -78,17 +78,17 @@ class TelemetriaResourceTest {
     @TestSecurity(user = "admin", roles = {"admin"})
     void consultarTelemetriaMediaQuantidade() {
         LocalDate hoje = LocalDate.now();
-        telemetriaRepository.registrarChamada("/simulacoes", 50.0, hoje);
-        telemetriaRepository.registrarChamada("/simulacoes", 150.0, hoje);
-        telemetriaRepository.registrarChamada("/simulacoes", 100.0, hoje);
+        telemetriaRepository.registrarChamada("/v1/simulacoes", 50.0, hoje);
+        telemetriaRepository.registrarChamada("/v1/simulacoes", 150.0, hoje);
+        telemetriaRepository.registrarChamada("/v1/simulacoes", 100.0, hoje);
 
         given()
             .accept(ContentType.JSON)
         .when()
-            .get("/telemetria")
+            .get("/v1/telemetria")
         .then()
             .statusCode(200)
-            .body("servicos.find { it.servico == '/simulacoes' }.quantidadeChamadas", equalTo(3))
-            .body("servicos.find { it.servico == '/simulacoes' }.mediaTempoRespostaMs", equalTo(100.0F));
+            .body("servicos.find { it.servico == '/v1/simulacoes' }.quantidadeChamadas", equalTo(3))
+            .body("servicos.find { it.servico == '/v1/simulacoes' }.mediaTempoRespostaMs", equalTo(100.0F));
     }
 }

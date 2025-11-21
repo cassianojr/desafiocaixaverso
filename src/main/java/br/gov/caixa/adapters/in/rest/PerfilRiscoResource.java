@@ -11,7 +11,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-@Path("/perfil-risco")
+@Path("/v1/perfil-risco")
 @Produces(MediaType.APPLICATION_JSON)
 public class PerfilRiscoResource {
     @Inject
