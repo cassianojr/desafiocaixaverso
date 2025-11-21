@@ -1,11 +1,13 @@
 package br.gov.caixa.infrastructure.config;
 
+import io.quarkus.test.junit.QuarkusTest;
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
 import org.eclipse.microprofile.openapi.annotations.info.Info;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@QuarkusTest
 class ApplicationConfigTest {
 
     @Test
