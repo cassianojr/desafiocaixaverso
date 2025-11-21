@@ -3,6 +3,7 @@ package br.gov.caixa.adapters.in.rest;
 import br.gov.caixa.domain.model.PerfilRiscoResultado;
 import br.gov.caixa.domain.port.in.ConsultarPerfilRiscoUseCase;
 import br.gov.caixa.infrastructure.security.PerfisPermitidos;
+import io.quarkus.cache.CacheResult;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
@@ -39,6 +40,7 @@ public class PerfilRiscoResource {
     )
     @Path("/{clienteId}")
     @RolesAllowed({PerfisPermitidos.ADMIN, PerfisPermitidos.USER})
+    @CacheResult(cacheName = "perfilRiscoCache")
     public Response consultarPerfilRisco(
             @Parameter(description = "ID do cliente", required = true)
             @PathParam("clienteId") Long clienteId) {

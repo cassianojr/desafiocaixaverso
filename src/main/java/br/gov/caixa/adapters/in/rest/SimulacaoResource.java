@@ -4,6 +4,7 @@ import br.gov.caixa.domain.model.Simulacao;
 import br.gov.caixa.domain.model.SimulacaoResultado;
 import br.gov.caixa.domain.port.in.SimularInvestimentoUseCase;
 import br.gov.caixa.infrastructure.security.PerfisPermitidos;
+import io.quarkus.cache.CacheResult;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -38,6 +39,7 @@ public class SimulacaoResource {
             )
     )
     @RolesAllowed({PerfisPermitidos.ADMIN, PerfisPermitidos.USER})
+    @CacheResult(cacheName = "simulacaoInvestimentoCache")
     public Response simularInvestimento(
             @RequestBody(
                     description = "Parâmetros para simulação de investimento",

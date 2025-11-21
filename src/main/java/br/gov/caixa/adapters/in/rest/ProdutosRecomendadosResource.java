@@ -3,6 +3,7 @@ package br.gov.caixa.adapters.in.rest;
 import br.gov.caixa.domain.model.Produto;
 import br.gov.caixa.domain.port.in.ConsultarProdutosRecomendadosUseCase;
 import br.gov.caixa.infrastructure.security.PerfisPermitidos;
+import io.quarkus.cache.CacheResult;
 import jakarta.annotation.Resource;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
@@ -39,6 +40,7 @@ public class ProdutosRecomendadosResource {
     )
     @Path("/{perfil}")
     @RolesAllowed({PerfisPermitidos.ADMIN, PerfisPermitidos.USER})
+    @CacheResult(cacheName = "produtosRecomendadosCache")
     public Response consultar(
             @Parameter(description = "Perfil do cliente", required = true)
             @PathParam("perfil") String perfil){
