@@ -31,7 +31,7 @@ class PerfilRiscoResourceTest {
         PerfilRiscoResultado resultado = new PerfilRiscoResultado(1L, "MODERADO", 55, "Perfil equilibrado entre segurança e rentabilidade.");
         when(useCase.consultar(1L)).thenReturn(resultado);
 
-        PerfilRiscoResultado r = resource.consultarPerfilRisco(1L);
+        PerfilRiscoResultado r = resource.consultarPerfilRisco(1L).readEntity(PerfilRiscoResultado.class);
         assertEquals("MODERADO", r.perfil());
         assertEquals(55, r.pontuacao());
         verify(useCase).consultar(1L);

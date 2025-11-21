@@ -47,6 +47,7 @@ services:
 
     environment:
 
+      QUARKUS_OIDC_ENABLED: "true"
       QUARKUS_DATASOURCE_DB_KIND: "mssql"
       QUARKUS_DATASOURCE_USERNAME: "sa"
       QUARKUS_DATASOURCE_PASSWORD: "YourStrong!Pass123"

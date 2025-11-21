@@ -1,0 +1,333 @@
+openapi: 3.0.0
+info:
+  description: "API para consulta de investimentos, simulações, produtos recomendados\
+    \ e telemetria."
+  title: API de Investimentos da Caixa
+  version: 1.0.0
+components:
+  schemas:
+    Investimento:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        clienteId:
+          type: integer
+          format: int64
+        tipo:
+          type: string
+        valor:
+          type: number
+        rentabilidade:
+          type: number
+        data:
+          $ref: "#/components/schemas/LocalDate"
+    LocalDate:
+      type: string
+      format: date
+    PeriodoTelemetria:
+      type: object
+      properties:
+        inicio:
+          $ref: "#/components/schemas/LocalDate"
+        fim:
+          $ref: "#/components/schemas/LocalDate"
+    Produto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        tipo:
+          type: string
+        rentabilidade:
+          type: number
+        risco:
+          type: string
+    ResultadoSimulacao:
+      type: object
+      properties:
+        valorFinal:
+          type: number
+        rentabilidadeEfetiva:
+          type: number
+        prazoMeses:
+          type: integer
+          format: int32
+    SimulacaoHistorico:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        clienteId:
+          type: integer
+          format: int64
+        produto:
+          type: string
+        valorInvestido:
+          type: number
+        valorFinal:
+          type: number
+        prazoMeses:
+          type: integer
+          format: int32
+        dataSimulacao:
+          $ref: "#/components/schemas/LocalDate"
+    SimulacaoPorProdutoDia:
+      type: object
+      properties:
+        produto:
+          type: string
+        data:
+          $ref: "#/components/schemas/LocalDate"
+        quantidadeSimulacoes:
+          type: integer
+          format: int64
+        mediaValorFinal:
+          type: number
+          format: double
+    Telemetria:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        servico:
+          type: string
+        quantidadeChamadas:
+          type: integer
+          format: int64
+        mediaTempoRespostaMs:
+          type: number
+          format: double
+        data:
+          $ref: "#/components/schemas/LocalDate"
+    TelemetriaResultado:
+      type: object
+      properties:
+        servicos:
+          type: array
+          items:
+            $ref: "#/components/schemas/Telemetria"
+        periodo:
+          $ref: "#/components/schemas/PeriodoTelemetria"
+  securitySchemes:
+    SecurityScheme:
+      type: openIdConnect
+      openIdConnectUrl: http://localhost:8081/realms/caixaverso/.well-known/openid-configuration
+      description: Authentication
+paths:
+  /api/v1/investimentos/{clienteId}:
+    get:
+      summary: Consultar Investimentos
+      description: Consulta os investimentos de um cliente pelo ID
+      parameters:
+        - description: ID do cliente
+          required: true
+          name: clienteId
+          in: path
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Investimentos consultados com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Investimento"
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      tags:
+        - Investimentos Resource
+      security:
+        - SecurityScheme:
+            - admin
+            - user
+  /api/v1/perfil-risco/{clienteId}:
+    get:
+      summary: Consultar Perfil de Risco
+      description: Consulta o perfil de risco de um cliente pelo ID
+      parameters:
+        - description: ID do cliente
+          required: true
+          name: clienteId
+          in: path
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Perfil de risco consultado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  clienteId:
+                    type: integer
+                    format: int64
+                  perfil:
+                    type: string
+                  pontuacao:
+                    type: integer
+                    format: int32
+                  descricao:
+                    type: string
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      tags:
+        - Perfil Risco Resource
+      security:
+        - SecurityScheme:
+            - admin
+            - user
+  /api/v1/produtos-recomendados/{perfil}:
+    get:
+      parameters:
+        - description: Perfil do cliente
+          required: true
+          name: perfil
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Produtos recomendados consultados com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Produto"
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      summary: Consultar
+      tags:
+        - Produtos Recomendados Resource
+      security:
+        - SecurityScheme:
+            - admin
+            - user
+  /api/v1/simulacoes:
+    get:
+      responses:
+        "200":
+          description: Simulações listadas com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SimulacaoHistorico"
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      summary: Listar Simulacoes
+      tags:
+        - Simulacoes Resource
+      security:
+        - SecurityScheme:
+            - admin
+            - user
+  /api/v1/simulacoes/por-produto-dia:
+    get:
+      responses:
+        "200":
+          description: Simulações consultadas por produto e dia com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SimulacaoPorProdutoDia"
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      summary: Consultar Simulacoes
+      tags:
+        - Simulacoes Resource
+      security:
+        - SecurityScheme:
+            - admin
+            - user
+  /api/v1/simular-investimento:
+    post:
+      requestBody:
+        description: Parâmetros para simulação de investimento
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clienteId:
+                  type: integer
+                  format: int64
+                valor:
+                  type: number
+                prazoMeses:
+                  type: integer
+                  format: int32
+                tipoProduto:
+                  type: string
+        required: true
+      responses:
+        "200":
+          description: Simulação de investimento realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  produtoValidado:
+                    $ref: "#/components/schemas/Produto"
+                  resultadoSimulacao:
+                    $ref: "#/components/schemas/ResultadoSimulacao"
+                  dataSimulacao:
+                    $ref: "#/components/schemas/LocalDate"
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+        "400":
+          description: Bad Request
+      summary: Simular Investimento
+      tags:
+        - Simulacao Resource
+      security:
+        - SecurityScheme:
+            - admin
+            - user
+  /api/v1/telemetria:
+    get:
+      responses:
+        "200":
+          description: Dados de telemetria consultados com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TelemetriaResultado"
+        "401":
+          description: Not Authorized
+        "403":
+          description: Not Allowed
+      summary: Consultar Telemetria
+      tags:
+        - Telemetria Resource
+      security:
+        - SecurityScheme:
+            - admin
