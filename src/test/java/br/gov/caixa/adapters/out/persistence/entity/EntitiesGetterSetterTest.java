@@ -1,5 +1,9 @@
 package br.gov.caixa.adapters.out.persistence.entity;
 
+import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilFaixaFrequenciaEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilFaixaVolumeEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilInvestidorFaixaPontuacaoEntity;
+import br.gov.caixa.adapters.out.persistence.entity.parametrosPerfil.PerfilPreferenciaLiquidezEntity;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -87,5 +91,73 @@ class EntitiesGetterSetterTest {
         assertEquals(5L, e.getQuantidadeChamadas());
         assertEquals(123.45, e.getMediaTempoRespostaMs());
         assertEquals(data, e.getData());
+    }
+
+    @Test
+    @DisplayName("PerfilFaixaVolumeEntity getters/setters")
+    void perfilFaixaVolumeEntity() {
+        PerfilFaixaVolumeEntity e = new PerfilFaixaVolumeEntity();
+        e.setId(1L);
+        e.setValorMin(BigDecimal.valueOf(0));
+        e.setValorMax(BigDecimal.valueOf(4999.99));
+        e.setPontos(10);
+        e.setDescricao("Volume menor que 5.000");
+
+        assertEquals(1L, e.getId());
+        assertEquals(0, e.getValorMin().compareTo(BigDecimal.valueOf(0)));
+        assertEquals(0, e.getValorMax().compareTo(BigDecimal.valueOf(4999.99)));
+        assertEquals(10, e.getPontos());
+        assertEquals("Volume menor que 5.000", e.getDescricao());
+    }
+
+    @Test
+    @DisplayName("PerfilFaixaFrequenciaEntity getters/setters")
+    void perfilFaixaFrequenciaEntity() {
+        PerfilFaixaFrequenciaEntity e = new PerfilFaixaFrequenciaEntity();
+        e.setId(1L);
+        e.setQtdMin(0);
+        e.setQtdMax(1);
+        e.setPontos(10);
+        e.setDescricao("Menos de 2 investimentos");
+
+        assertEquals(1L, e.getId());
+        assertEquals(0, e.getQtdMin());
+        assertEquals(1, e.getQtdMax());
+        assertEquals(10, e.getPontos());
+        assertEquals("Menos de 2 investimentos", e.getDescricao());
+    }
+
+    @Test
+    @DisplayName("PerfilPreferenciaLiquidezEntity getters/setters")
+    void perfilPreferenciaLiquidezEntity() {
+        PerfilPreferenciaLiquidezEntity e = new PerfilPreferenciaLiquidezEntity();
+        e.setId(1L);
+        e.setPercentualMin(BigDecimal.valueOf(50.00));
+        e.setPercentualMax(null);
+        e.setPontos(10);
+        e.setDescricao("Preferência alta por alta liquidez");
+
+        assertEquals(1L, e.getId());
+        assertEquals(0, e.getPercentualMin().compareTo(BigDecimal.valueOf(50.00)));
+        assertNull(e.getPercentualMax());
+        assertEquals(10, e.getPontos());
+        assertEquals("Preferência alta por alta liquidez", e.getDescricao());
+    }
+
+    @Test
+    @DisplayName("PerfilInvestidorFaixaPontuacaoEntity getters/setters")
+    void perfilInvestidorFaixaPontuacaoEntity() {
+        PerfilInvestidorFaixaPontuacaoEntity e = new PerfilInvestidorFaixaPontuacaoEntity();
+        e.setId(1L);
+        e.setPontosMin(0);
+        e.setPontosMax(40);
+        e.setPerfil("CONSERVADOR");
+        e.setDescricao("Busca segurança e baixa variação, priorizando liquidez.");
+
+        assertEquals(1L, e.getId());
+        assertEquals(0, e.getPontosMin());
+        assertEquals(40, e.getPontosMax());
+        assertEquals("CONSERVADOR", e.getPerfil());
+        assertEquals("Busca segurança e baixa variação, priorizando liquidez.", e.getDescricao());
     }
 }
