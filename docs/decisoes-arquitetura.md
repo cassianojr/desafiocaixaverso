@@ -56,7 +56,7 @@ Critérios e pontos:
 | Frequência movimentações (mês) | 2–5 | 20 |
 | Frequência movimentações (mês) | > 5 | 30 |
 | Preferência (liquidez vs rentabilidade) | maior liquidez (LCI/CDB) | 10 |
-| Preferência (liquidez vs rentabilidade) | maior rentabilidade (Fundos) | 30 |
+| Preferência (liquidez vs rentabilidade) | maior rentabilidade (Fundos) | 20 |
 
 Faixas de perfil:
 - 0–40 → Conservador
